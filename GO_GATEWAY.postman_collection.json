@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "1228d438-586d-4ea4-a4aa-d97c2990e226",
+		"name": "GO_GATEWAY",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5353158"
+	},
+	"item": [
+		{
+			"name": "add_advertisements",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"name\": \"Product A\",\r\n        \"price\": 19.99,\r\n        \"description\": \"This is the description for Product A\",\r\n        \"image\": \"https://example.com/product-a.jpg\",\r\n        \"author\": \"John Smith\",\r\n        \"date\": \"2023-04-05T00:00:00Z\"\r\n    },\r\n    {\r\n        \"name\": \"Product B\",\r\n        \"price\": 29.99,\r\n        \"description\": \"This is the description for Product B\",\r\n        \"image\": \"https://example.com/product-b.jpg\",\r\n        \"author\": \"Jane Doe\",\r\n        \"date\": \"2023-04-05T00:00:00Z\"\r\n    },\r\n    {\r\n        \"name\": \"Product C\",\r\n        \"price\": 39.99,\r\n        \"description\": \"This is the description for Product C\",\r\n        \"image\": \"https://example.com/product-c.jpg\",\r\n        \"author\": \"Bob Johnson\",\r\n        \"date\": \"2023-04-05T00:00:00Z\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/advertisements",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"advertisements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_advertisements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/get-advertisements",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"get-advertisements"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
