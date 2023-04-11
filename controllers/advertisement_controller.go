@@ -30,8 +30,10 @@ func (controller *AdvertisementController) ReceiveAdvertisements(context *gin.Co
 		return
 	}
 
-	controller.logger.Printf("Converting finished successfully! Processing to fill the queue!")
-	controller.advertisementService.AddToQueue(&advertisements)
+	go func() {
+		controller.logger.Printf("Converting finished successfully! Processing to fill the queue!")
+		controller.advertisementService.AddToQueue(&advertisements)
+	}()
 
 	context.Status(http.StatusOK)
 }
