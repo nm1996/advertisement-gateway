@@ -25,6 +25,7 @@ func (service *AdvertisementService) AddToQueue(advertisements *[]model.Advertis
 		service.Queue.Enqueue(advertise)
 		service.logger.Printf("Adding advertisement: %s to queue finished", advertise.Name)
 	}
+
 	service.logger.Printf("Adding all advertisements finished")
 }
 
