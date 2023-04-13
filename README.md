@@ -1,2 +1,5 @@
-# advisement-gateway
-advisement-gateway
+Requirements:
+    Installed go
+    Installed docker
+    Downloaded nats:
+        docker pull nats
