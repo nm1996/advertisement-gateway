@@ -37,6 +37,7 @@ func NewServer(logger *log.Logger) *Server {
 func (server *Server) SetupRoutes() {
 	server.router.POST("/advertisements", server.advertisementController.ReceiveAdvertisements)
 	server.router.GET("/get-advertisements", server.advertisementController.GetAdvertisements)
+	server.router.GET("/get-queue-size", server.advertisementController.GetAdvertisementsCount)
 }
 
 func (server *Server) Start() {
