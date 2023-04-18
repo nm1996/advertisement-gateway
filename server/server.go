@@ -18,9 +18,12 @@ type Server struct {
 
 func NewServer(logger *log.Logger) *Server {
 	//initialize dependencies
+
+	// natsConfiguration := utils.GetNatsConfiguration()
 	queue := utils.NewSafeQueue()
 	advService := services.NewAdvertisementService(logger, queue)
 	advController := controllers.NewAdvertisementController(advService, logger)
+	// eventService := services.NewEventService(logger, queue, natsConfiguration)
 
 	//initialize router
 	router := gin.Default()
