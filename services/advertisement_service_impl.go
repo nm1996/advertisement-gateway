@@ -39,3 +39,7 @@ func (service *AdvertisementService) GetFromQueue() *[]model.Advertisement {
 
 	return &result
 }
+
+func (service *AdvertisementService) GetQueueSize() int {
+	return service.Queue.Len()
+}

@@ -5,6 +5,7 @@ import (
 	"gateway/model"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -41,4 +42,13 @@ func (controller *AdvertisementController) ReceiveAdvertisements(context *gin.Co
 func (controller *AdvertisementController) GetAdvertisements(context *gin.Context) {
 	var data = controller.advertisementService.GetFromQueue()
 	context.JSON(http.StatusOK, data)
+}
+
+func (controller *AdvertisementController) GetAdvertisementsCount(context *gin.Context) {
+	queueSize := controller.advertisementService.GetQueueSize()
+
+	response := make(map[string]string)
+	response["message"] = strconv.Itoa(queueSize)
+
+	context.JSON(http.StatusOK, response)
 }
