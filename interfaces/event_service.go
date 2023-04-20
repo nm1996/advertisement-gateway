@@ -1,5 +1,8 @@
 package interfaces
 
+import "gateway/model"
+
 type EventService interface {
-	PublishMessage()
+	PublishMessage() error
+	CreateChunks() [][]model.Advertisement
 }
