@@ -14,10 +14,10 @@ import (
 )
 
 // maximum message size is 1 MB
-const maxMessageSize = 1000000
+const maxMessageSize = 1_000_000
 
 // maximum chunk size is 100 KB
-const maxChunkSize = 100000
+const maxChunkSize = 1_000
 
 type EventService struct {
 	logger         *log.Logger
@@ -86,14 +86,45 @@ func (service *EventService) CreateChunks() [][]model.Advertisement {
 
 	service.logger.Printf("Created %d number of chunks", len(chunks))
 
-	for i := 0; i < numChunks; i++ {
-		startIndex := i * maxChunkSize
-		endIndex := int(math.Min(float64((i+1)*maxChunkSize), float64(service.Queue.Len())))
+	var currentMessageSize int
+	var currentChunk []model.Advertisement
 
-		chunks[i] = make([]model.Advertisement, endIndex-startIndex)
-		for j := 0; j < len(chunks[i]); j++ {
-			chunks[i][j] = service.Queue.Dequeue().(model.Advertisement)
+	for i := 0; i < service.Queue.Len(); i++ {
+		item := service.Queue.Peek().(model.Advertisement)
+
+		itemBytes, err := json.Marshal(item)
+		if err != nil {
+			service.logger.Printf("Error marshaling advertisement: %v", err)
+			continue
 		}
+
+		if currentMessageSize+len(itemBytes) > maxMessageSize {
+			// If adding the next item would exceed the max message size, start a new message.
+			chunks = append(chunks, currentChunk)
+			currentChunk = nil
+			currentMessageSize = 0
+		}
+
+		if len(currentChunk) == maxChunkSize {
+			// If the current chunk is at its max size, append it to the chunks slice and start a new chunk.
+			chunks = append(chunks, currentChunk)
+			currentChunk = nil
+			currentMessageSize = 0
+		}
+
+		if currentChunk == nil {
+			currentChunk = make([]model.Advertisement, 0)
+		}
+
+		currentChunk = append(currentChunk, item)
+		service.Queue.Dequeue()
+
+		currentMessageSize += len(itemBytes)
+	}
+
+	// Append the final chunk if there are any remaining items.
+	if len(currentChunk) > 0 {
+		chunks = append(chunks, currentChunk)
 	}
 
 	return chunks

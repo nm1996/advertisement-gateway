@@ -34,8 +34,8 @@ $body = @(
     }
 ) | ConvertTo-Json
 
-# Send 100 API requests
-1..100 | ForEach-Object {
+# Send 300 API requests
+1..300 | ForEach-Object {
     Start-Job -ScriptBlock {
         Invoke-RestMethod -Method POST -Uri $using:url -Headers $using:headers -Body $using:body
     }
